@@ -7,6 +7,7 @@ export default defineComponent({
         const handleChange = (e: any) => {
             const value = e.target.value;
             const num = Number(value);
+            console.log(value, num, '--');
 
             if (Number.isNaN(num)) {
                 props.onChange(undefined);
