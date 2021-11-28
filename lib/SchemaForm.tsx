@@ -24,7 +24,9 @@ export default defineComponent({
         };
         const context = {
             SchemaItem,
+            // theme: props.theme,
         };
+
         provide(SchemaFormContextKey, context);
 
         return () => {

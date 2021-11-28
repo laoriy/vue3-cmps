@@ -1,8 +1,8 @@
 <script lang="tsx">
 import { defineComponent, Ref, ref, reactive, watchEffect } from 'vue';
 import MonacoEditor from './components/MonacoEditor.vue';
-import SchemaForm from '../lib';
-
+import SchemaForm, { ThemeProvider } from '../lib';
+import themeDefault from '../lib/theme-default/index';
 import demos from './demos';
 
 // const schemaData = {
@@ -120,11 +120,13 @@ export default defineComponent({
                             </div>
                         </div>
                         <div class="form">
-                            <SchemaForm
-                                schema={demo.schema}
-                                onChange={handleChange}
-                                value={demo.data}
-                            />
+                            <ThemeProvider theme={themeDefault}>
+                                <SchemaForm
+                                    schema={demo.schema}
+                                    onChange={handleChange}
+                                    value={demo.data}
+                                />
+                            </ThemeProvider>
                             {/* <SchemaForm
                 schema={demo.schema!}
                 uiSchema={demo.uiSchema!}

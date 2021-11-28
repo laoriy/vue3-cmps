@@ -35,7 +35,7 @@
     "lib/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "lib/SchemaForm.tsx", "lib/SchemaItem.tsx", "lib/fields/ObjectField.tsx", "lib/fields/ArrayField.tsx", "lib/fields/NumberFields.tsx", "lib/fields/StringField.tsx", "lib/fields/compontents/ArrayItemWrapper.tsx", "lib/widgets/Selection.tsx"  ],
+, "lib/SchemaForm.tsx", "lib/SchemaItem.tsx", "lib/fields/ObjectField.tsx", "lib/fields/ArrayField.tsx", "lib/fields/NumberFields.tsx", "lib/fields/StringField.tsx", "lib/fields/compontents/ArrayItemWrapper.tsx", "lib/widgets/Selection.tsx", "lib/theme-default/TextWidget.tsx"  ],
   "exclude": [
     "node_modules"
   ]

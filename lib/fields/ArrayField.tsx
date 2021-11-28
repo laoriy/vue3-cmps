@@ -2,7 +2,8 @@ import { defineComponent } from 'vue';
 import { useVJSFContext } from '../context';
 import { FiledPropsDefine, Schema } from '../types';
 import ArrayItemWrapper from './compontents/ArrayItemWrapper';
-import SelectionWidget from '../widgets/Selection';
+import { getWidget } from '../theme';
+// import SelectionWidget from '../widgets/Selection';
 /**
  * {
  *  items: { type:string }
@@ -56,6 +57,7 @@ export default defineComponent({
             arr.splice(index + 1, 0, item[0]);
             props.onChange(arr);
         };
+        const SelectionWidgetRef = getWidget('SelectionWidget');
 
         return () => {
             const { schema, rootSchema, value } = props;
@@ -63,7 +65,8 @@ export default defineComponent({
             const isMultitype = Array.isArray(schemaItems);
             const isSelect = schema.items && (schema.items as any).enum;
             const SchemaItem = context.SchemaItem;
-
+            // const SelectionWidget = context.theme.widgets.SelectionWidget;
+            const SelectionWidget: any = SelectionWidgetRef.value;
             if (isMultitype) {
                 const arr = Array.isArray(value) ? value : [];
                 return (schemaItems as Schema[]).map((s: Schema, index: number) => (
