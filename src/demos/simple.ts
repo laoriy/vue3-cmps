@@ -18,6 +18,7 @@ export default {
             },
             staticArray: {
                 type: 'array',
+                title: 'staticArray',
                 items: [
                     {
                         type: 'string',
@@ -29,6 +30,7 @@ export default {
             },
             singleTypeArray: {
                 type: 'array',
+                title: 'singleTypeArray',
                 items: {
                     type: 'object',
                     properties: {
@@ -43,6 +45,7 @@ export default {
             },
             multiSelectArray: {
                 type: 'array',
+                title: 'multiSelectArray',
                 items: {
                     type: 'string',
                     enum: ['123', '456', '789'],

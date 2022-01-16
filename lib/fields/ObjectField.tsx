@@ -20,7 +20,7 @@ export default defineComponent({
         };
 
         return () => {
-            const { schema, value, rootSchema } = props;
+            const { schema, value, rootSchema, errorSchema } = props;
             const { SchemaItem } = context;
             const properties = schema.properties || {};
 
@@ -31,6 +31,7 @@ export default defineComponent({
                     rootSchema={rootSchema}
                     value={currentValue[key]}
                     key={index}
+                    errorSchema={errorSchema[key] || {}}
                     onChange={(v: any) => {
                         handleObjectFieldChange(key, v);
                     }}

@@ -13,7 +13,14 @@ export default defineComponent({
 
         return () => {
             const NumberWidget: any = NumberWidgetRef.value;
-            return <NumberWidget value={props.value} onChange={handleChange} />;
+            return (
+                <NumberWidget
+                    errors={props.errorSchema?.__errors}
+                    value={props.value}
+                    onChange={handleChange}
+                    schema={props.schema}
+                />
+            );
         };
     },
 });

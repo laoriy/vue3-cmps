@@ -45,6 +45,7 @@ const SchemaItem = defineComponent({
                     console.warn(`${type} is not supported`);
                 }
             }
+
             return <Component {...props} schema={retrieveSchemaData} />;
         };
     },

@@ -28,6 +28,7 @@ export default defineComponent({
             schemaCode: string;
             dataCode: string;
             uiSchemaCode: string;
+            customValidate: ((data: any, errors: any) => void) | undefined;
         } = reactive({
             schema: null,
             data: {},
@@ -35,17 +36,19 @@ export default defineComponent({
             schemaCode: '',
             dataCode: '',
             uiSchemaCode: '',
+            customValidate: undefined,
         });
 
         watchEffect(() => {
             const index = selectedRef.value;
-            const d = demos[index];
+            const d: any = demos[index];
             demo.schema = d.schema;
             demo.data = d.default;
             demo.uiSchema = d.uiSchema;
             demo.schemaCode = toJson(d.schema);
             demo.dataCode = toJson(d.default);
             demo.uiSchemaCode = toJson(d.uiSchema);
+            demo.customValidate = d.customValidate;
         });
 
         const methodRef: Ref<any> = ref();
@@ -68,7 +71,10 @@ export default defineComponent({
         const handleSchemaChange = (v: string) => handleCodeChange('schema', v);
         const handleDataChange = (v: string) => handleCodeChange('data', v);
         const handleUISchemaChange = (v: string) => handleCodeChange('uiSchema', v);
-
+        const contextRef = ref();
+        const validateForm = async () => {
+            console.log(await contextRef.value.doValidate());
+        };
         return () => {
             const selected = selectedRef.value;
 
@@ -125,8 +131,11 @@ export default defineComponent({
                                     schema={demo.schema}
                                     onChange={handleChange}
                                     value={demo.data}
+                                    contextRef={contextRef}
+                                    customValidate={demo.customValidate}
                                 />
                             </ThemeProvider>
+                            <button onClick={validateForm}>校验</button>
                             {/* <SchemaForm
                 schema={demo.schema!}
                 uiSchema={demo.uiSchema!}

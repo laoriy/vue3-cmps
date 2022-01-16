@@ -60,7 +60,7 @@ export default defineComponent({
         const SelectionWidgetRef = getWidget('SelectionWidget');
 
         return () => {
-            const { schema, rootSchema, value } = props;
+            const { schema, rootSchema, value, errorSchema } = props;
             const schemaItems = schema.items;
             const isMultitype = Array.isArray(schemaItems);
             const isSelect = schema.items && (schema.items as any).enum;
@@ -74,6 +74,7 @@ export default defineComponent({
                         schema={s}
                         key={index}
                         rootSchema={rootSchema}
+                        errorSchema={errorSchema}
                         value={arr[index]}
                         onChange={(v: any) => {
                             handleArrayItemchange(v, index);
@@ -95,6 +96,7 @@ export default defineComponent({
                             schema={schema.items as Schema}
                             value={v}
                             key={index}
+                            errorSchema={errorSchema[index] || {}}
                             rootSchema={rootSchema}
                             onChange={(vv: any) => handleArrayItemchange(vv, index)}
                         />
@@ -108,7 +110,13 @@ export default defineComponent({
             }));
 
             return (
-                <SelectionWidget onChange={props.onChange} value={props.value} options={options} />
+                <SelectionWidget
+                    errors={errorSchema.__errors}
+                    onChange={props.onChange}
+                    value={props.value}
+                    options={options}
+                    schema={props.schema}
+                />
             );
         };
     },

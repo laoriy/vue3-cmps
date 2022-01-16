@@ -13,7 +13,14 @@ export default defineComponent({
             const TextWidget: any = TextWidgetRef.value;
 
             // return <input type="text" value={props.value} onInput={handleChange} />;
-            return <TextWidget value={props.value} onChange={handleChange} />;
+            return (
+                <TextWidget
+                    errors={props.errorSchema?.__errors}
+                    value={props.value}
+                    schema={props.schema}
+                    onChange={handleChange}
+                />
+            );
         };
     },
 });
