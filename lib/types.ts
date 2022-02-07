@@ -1,4 +1,5 @@
 import { PropType, defineComponent, DefineComponent } from 'vue';
+import { FormatDefinition, KeywordDefinition } from 'ajv';
 import { ErrorSchema } from './validator';
 
 export enum SchemaTypes {
@@ -49,7 +50,41 @@ export interface Schema {
     exclusiveMaximum?: number;
     exclusiveMinimum?: number;
 }
+export const CommonWidgetPropsDefine = {
+    value: {},
+    onChange: {
+        type: Function as PropType<(v: any) => void>,
+        required: true,
+    },
+    errors: {
+        type: Array as PropType<string[]>,
+    },
+    schema: {
+        type: Object as PropType<Schema>,
+        required: true,
+    },
+    options: {
+        type: Object as PropType<{ [key: string]: any }>,
+    },
+} as const;
+export const SelectionWidgetPropsDefine = {
+    ...CommonWidgetPropsDefine,
+    options: {
+        required: true,
+        type: Array as PropType<{ key: string; value: any }[]>,
+    },
+} as const;
+export type CommonWidgetDefine = DefineComponent<typeof CommonWidgetPropsDefine, {}, {}>;
+export type SelectionWidgetDefine = DefineComponent<typeof SelectionWidgetPropsDefine, {}, {}>;
 
+export interface UISchema {
+    widget?: string | CommonWidgetDefine;
+    properties?: {
+        [key: string]: UISchema;
+    };
+    items?: UISchema | UISchema[];
+    [key: string]: any;
+}
 export const FiledPropsDefine = {
     schema: {
         type: Object as PropType<Schema>,
@@ -70,6 +105,10 @@ export const FiledPropsDefine = {
         type: Object as PropType<ErrorSchema>,
         required: true,
     },
+    uiSchema: {
+        type: Object as PropType<UISchema>,
+        required: true,
+    },
 } as const;
 
 export const TypeHelperComponent = defineComponent({
@@ -77,36 +116,21 @@ export const TypeHelperComponent = defineComponent({
 });
 
 export type CommonFieldType = typeof TypeHelperComponent;
-export const CommonWidgetPropsDefine = {
-    value: {},
-    onChange: {
-        type: Function as PropType<(v: any) => void>,
-        required: true,
-    },
-    errors: {
-        type: Array as PropType<string[]>,
-    },
-    schema: {
-        type: Object as PropType<Schema>,
-        required: true,
-    },
-} as const;
-
-export const SelectionWidgetPropsDefine = {
-    ...CommonWidgetPropsDefine,
-    options: {
-        required: true,
-        type: Array as PropType<{ key: string; value: any }[]>,
-    },
-} as const;
-
-export type CommonWidgetDefine = DefineComponent<typeof CommonWidgetPropsDefine, {}, {}>;
-export type SelectionWidgetDefine = DefineComponent<typeof SelectionWidgetPropsDefine, {}, {}>;
-
 export interface Theme {
     widgets: {
         SelectionWidget: SelectionWidgetDefine;
         TextWidget: CommonWidgetDefine;
         NumberWidget: CommonWidgetDefine;
     };
+}
+export interface CustomFormat {
+    name: string;
+    definition: FormatDefinition<string>;
+    component: CommonWidgetDefine;
+}
+
+export interface CustomKeyword {
+    name: string;
+    definition: Partial<KeywordDefinition>;
+    transformSchema: (originSchema: Schema) => Schema;
 }

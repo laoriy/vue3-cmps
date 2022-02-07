@@ -5,14 +5,16 @@ import NumberFields from './fields/NumberFields';
 import { retrieveSchema } from './utils';
 import ObjectField from './fields/ObjectField';
 import ArrayField from './fields/ArrayField';
+import { useVJSFContext } from './context';
 
 const SchemaItem = defineComponent({
     name: 'SchemaItem',
     props: FiledPropsDefine,
     setup(props) {
+        const formContext = useVJSFContext();
         const retrieveSchemaRef = computed(() => {
             const { schema, rootSchema, value } = props;
-            return retrieveSchema(schema, rootSchema, value);
+            return formContext.transformSchemaRef.value(retrieveSchema(schema, rootSchema, value));
         });
         return () => {
             const { schema } = props;

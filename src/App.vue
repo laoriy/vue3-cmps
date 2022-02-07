@@ -4,7 +4,10 @@ import MonacoEditor from './components/MonacoEditor.vue';
 import SchemaForm, { ThemeProvider } from '../lib';
 import themeDefault from '../lib/theme-default/index';
 import demos from './demos';
-
+// @ts-ignore
+import customFormat from './plugins/customFormat.tsx';
+// @ts-ignore
+import customKeywords from './plugins/customKeyword.tsx';
 // const schemaData = {
 //     type: 'string',
 // };
@@ -133,6 +136,9 @@ export default defineComponent({
                                     value={demo.data}
                                     contextRef={contextRef}
                                     customValidate={demo.customValidate}
+                                    customFormats={customFormat}
+                                    customKeywords={customKeywords}
+                                    uiSchema={demo.uiSchema}
                                 />
                             </ThemeProvider>
                             <button onClick={validateForm}>校验</button>

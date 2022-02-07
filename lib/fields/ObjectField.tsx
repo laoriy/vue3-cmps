@@ -20,13 +20,14 @@ export default defineComponent({
         };
 
         return () => {
-            const { schema, value, rootSchema, errorSchema } = props;
+            const { schema, value, rootSchema, errorSchema, uiSchema } = props;
             const { SchemaItem } = context;
             const properties = schema.properties || {};
 
             const currentValue: any = isObject(value) ? value : {};
             return Object.keys(properties).map((key: string, index: number) => (
                 <SchemaItem
+                    uiSchema={uiSchema.properties ? uiSchema.properties[key] || {} : {}}
                     schema={properties[key]}
                     rootSchema={rootSchema}
                     value={currentValue[key]}

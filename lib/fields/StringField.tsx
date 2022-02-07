@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { FiledPropsDefine } from '../types';
 import { getWidget } from '../theme';
 
@@ -8,7 +8,15 @@ export default defineComponent({
         const handleChange = (v: any) => {
             props.onChange(v);
         };
-        const TextWidgetRef = getWidget('TextWidget');
+        const TextWidgetRef = computed(() => {
+            const widgetRef = getWidget('TextWidget', props);
+            return widgetRef.value;
+        });
+        const widgetOptionsRef = computed(() => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { widget, properties, items, ...rest } = props.uiSchema;
+            return rest;
+        });
         return () => {
             const TextWidget: any = TextWidgetRef.value;
 
@@ -19,6 +27,7 @@ export default defineComponent({
                     value={props.value}
                     schema={props.schema}
                     onChange={handleChange}
+                    options={widgetOptionsRef.value}
                 />
             );
         };

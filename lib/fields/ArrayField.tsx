@@ -60,7 +60,7 @@ export default defineComponent({
         const SelectionWidgetRef = getWidget('SelectionWidget');
 
         return () => {
-            const { schema, rootSchema, value, errorSchema } = props;
+            const { schema, rootSchema, value, errorSchema, uiSchema } = props;
             const schemaItems = schema.items;
             const isMultitype = Array.isArray(schemaItems);
             const isSelect = schema.items && (schema.items as any).enum;
@@ -69,18 +69,25 @@ export default defineComponent({
             const SelectionWidget: any = SelectionWidgetRef.value;
             if (isMultitype) {
                 const arr = Array.isArray(value) ? value : [];
-                return (schemaItems as Schema[]).map((s: Schema, index: number) => (
-                    <SchemaItem
-                        schema={s}
-                        key={index}
-                        rootSchema={rootSchema}
-                        errorSchema={errorSchema}
-                        value={arr[index]}
-                        onChange={(v: any) => {
-                            handleArrayItemchange(v, index);
-                        }}
-                    />
-                ));
+                return (schemaItems as Schema[]).map((s: Schema, index: number) => {
+                    const itemsUISchema = uiSchema.items;
+                    const uiS = Array.isArray(itemsUISchema)
+                        ? itemsUISchema[index] || {}
+                        : itemsUISchema || {};
+                    return (
+                        <SchemaItem
+                            schema={s}
+                            uiSchema={uiS}
+                            key={index}
+                            rootSchema={rootSchema}
+                            errorSchema={errorSchema}
+                            value={arr[index]}
+                            onChange={(v: any) => {
+                                handleArrayItemchange(v, index);
+                            }}
+                        />
+                    );
+                });
             }
             if (!isSelect) {
                 const arr = Array.isArray(value) ? value : [];
@@ -93,6 +100,7 @@ export default defineComponent({
                         onDown={handleDown}
                     >
                         <SchemaItem
+                            uiSchema={(uiSchema.items as any) || {}}
                             schema={schema.items as Schema}
                             value={v}
                             key={index}
